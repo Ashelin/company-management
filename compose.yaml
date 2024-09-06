@@ -1,0 +1,129 @@
+version: '3.8'
+services:
+  company-service:
+    build:
+      context: ./company-service
+    container_name: company-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://company-db:5432/company_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      - company-db
+
+  department-service:
+    build:
+      context: ./department-service
+    container_name: department-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://department-db:5432/department_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      - department-db
+
+  team-service:
+    build:
+      context: ./team-service
+    container_name: team-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://team-db:5432/team_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      - team-db
+
+  project-service:
+    build:
+      context: ./project-service
+    container_name: project-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://project-db:5432/project_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    depends_on:
+      - project-db
+
+  company-db:
+    image: postgres:15-alpine
+    container_name: company-db
+    environment:
+      POSTGRES_DB: company_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - company-data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+  department-db:
+    image: postgres:15-alpine
+    container_name: department-db
+    environment:
+      POSTGRES_DB: department_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - department-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  team-db:
+    image: postgres:15-alpine
+    container_name: team-db
+    environment:
+      POSTGRES_DB: team_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - team-data:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
+
+  project-db:
+    image: postgres:15-alpine
+    container_name: project-db
+    environment:
+      POSTGRES_DB: project_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - project-data:/var/lib/postgresql/data
+    ports:
+      - "5436:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - company-db
+      - department-db
+      - team-db
+      - project-db
+
+volumes:
+  company-data:
+  department-data:
+  team-data:
+  project-data:
