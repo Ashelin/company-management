@@ -6,9 +6,7 @@ import com.ashelin.dto.DepartmentDto;
 import com.ashelin.model.Company;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.List;;
 
 @Component
 public class CompanyMapper {

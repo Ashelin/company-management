@@ -27,12 +27,16 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
+
     @Column(name = "DEPARTMENT_NAME", nullable = false)
     private String departmentName;
+
     @Column(name = "COMPANY_ID", nullable = false)
     private Long companyId;
+
     @Column(name = "CREATION_TIMESTAMP", updatable = false)
     private LocalDateTime creationTimestamp;
+
     @Column(name = "MODIFICATION_TIMESTAMP")
     private LocalDateTime modificationTimestamp;
 
